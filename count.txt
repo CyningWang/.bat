@@ -1,0 +1,17 @@
+/*----- 批处理统计分级目录下的文件数量 -----*/
+@echo off & setlocal enabledelayedexpansion
+for /f "delims=" %%i in ('dir /ad /b "%~dp0"') do (
+    for /f "tokens=1-2*" %%j in ('dir /a /s "%~dp0%%i"^|findstr /r "[0-9]*.个文件\>"') do (
+        set n=%%j
+    )
+    echo %%i [!n! 个文件]
+) >> count.txt
+pause
+
+// dir /ad /b 不现实完整路径的子目录名称列表
+// %0  变量表示批处理文件本身
+// ~dp 变量扩充：驱动器 + 路径
+// %~dp0 即当前所在目录
+
+// >> 命令：追加
+// >  命令：覆盖
