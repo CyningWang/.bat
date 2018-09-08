@@ -1,17 +1,23 @@
 /*----- 批处理统计分级目录下的文件数量 -----*/
 @echo off & setlocal enabledelayedexpansion
 for /f "delims=" %%i in ('dir /ad /b "%~dp0"') do (
-    for /f "tokens=1-2*" %%j in ('dir /a /s "%~dp0%%i"^|findstr /r "[0-9]*.个文件\>"') do (
-        set n=%%j
+    set /a n=0
+    for /f "delims=" %%j in ('dir /a /s /b "%~dp0%%i"') do (
+        set /a n+=1
     )
     echo %%i [!n! 个文件]
 ) >> count.txt
 pause
 
-// dir /ad /b 不现实完整路径的子目录名称列表
+// 逻辑很简单：遍历当前目录，获取子目录名称列表，再遍历子目录，有遍历到文件就记一次，下一次循环清空重新计算
+
+// dir /ad /b 不显示完整路径的子目录名称列表
 // %0  变量表示批处理文件本身
 // ~dp 变量扩充：驱动器 + 路径
 // %~dp0 即当前所在目录
+
+// dir /a /s /b 这几个参数都必须，少了就有问题
+// !n! 对于延迟变量的调用方式
 
 // >> 命令：追加
 // >  命令：覆盖
