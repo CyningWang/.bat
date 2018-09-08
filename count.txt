@@ -5,7 +5,7 @@ for /f "delims=" %%i in ('dir /ad /b "%~dp0"') do (
     for /f "delims=" %%j in ('dir /a /s /b "%~dp0%%i"') do (
         set /a n+=1
     )
-    echo %%i [!n! 个文件]
+    echo %%i [!n! 个文件] 
 ) >> count.txt
 pause
 
