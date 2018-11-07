@@ -1,6 +1,6 @@
 @echo off&setlocal EnableDelayedExpansion
 cd /d "工作目录"  
-for %%a in (*.html) do (
+for /f "delims=" %%a in ('dir /b/s *.html') do (
   (for /f "delims=" %%b in ('type "%%a"') do (
     set "str=%%b"
     if /i "!str:指定替换部分=!" == "%%b" (
@@ -15,6 +15,8 @@ for %%a in (*.html) do (
 
 /* 注释 */
 //  cd /d 直接进入指定目录，跳过盘符转换
+//  cd  %~dp0 指定当前脚本所在目录为工作区
+//  dir /b/s *.html 循环目录下所有html文件，包括子目录下面的
 //  /i 忽略大小写
 //  !str:指定替换部分=!   替换为空，替换后与原行字符串比较，是否相同，相同意味着，没有指定内容，不同，意味着有指定内容
 //  set .=. 设置标志符变量，表示已经找到相同部分
